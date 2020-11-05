@@ -34,10 +34,10 @@ func main() {
 	fmt.Println("今日の作業")
 	fmt.Printf("予定 %s-%s\n", tt.start.Format("15:04"), tt.end.Format("15:04"))
 	total := tt.end.Sub(tt.start)
-	hours := int(total.Hours()) % 24
-	mins := int(total.Minutes()) % 60
-	fmt.Printf("業務時間 %d時間%02d分\n", hours, mins)
-	fmt.Printf("作業時間 %d時間%02d分\n", hours-tt.meeting.Hour(), mins-tt.meeting.Minute())
+	workStart := tt.start.Add((time.Duration(tt.meeting.Hour()) * time.Hour) + (time.Duration(tt.meeting.Minute()) * time.Minute))
+	work := tt.end.Sub(workStart)
+	fmt.Printf("業務時間 %d時間%02d分\n", (int(total.Hours()) % 24), (int(total.Minutes()) % 60))
+	fmt.Printf("作業時間 %d時間%02d分\n", (int(work.Hours()) % 24), (int(work.Minutes()) % 60))
 	fmt.Printf("会議時間 %d時間%02d分\n", tt.meeting.Hour(), tt.meeting.Minute())
 }
 
